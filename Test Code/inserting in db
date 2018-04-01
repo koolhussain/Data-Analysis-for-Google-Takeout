@@ -1,0 +1,18 @@
+import sqlite3
+import os
+import json
+
+json_dir = './Json'
+db = sqlite3.connect('testing')
+
+cursor = db.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS test(timestamp INTEGER PRIMARY KEY)''')
+
+with  open('file.json', 'r')as json_file:
+	data = json.load(json_file)
+	timestamp = data["creationTime"]["timestamp"]
+
+	cursor.execute('''INSERT INTO test(timestamp) VALUES(?);''',(timestamp,))
+	print("INSERTED")
+	db.commit()
+					
